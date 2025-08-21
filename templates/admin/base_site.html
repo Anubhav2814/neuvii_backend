@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        /* Hide right sidebar completely */
+        #content-related {
+            display: none !important;
+        }
+        
+        /* Make main content area take full width */
+        #content-main {
+            width: 100% !important;
+            margin-right: 0 !important;
+        }
+        
+        /* Adjust content container */
+        #content {
+            width: 100% !important;
+        }
+        
+        /* Ensure proper layout */
+        .colMS {
+            margin-right: 0 !important;
+        }
+        
+        /* Custom header styling */
+        #header {
+            background: linear-gradient(135deg, #4a90a4 0%, #417690 100%);
+            color: white;
+        }
+        
+        #header h1 {
+            color: white;
+        }
+        
+        #header a:link, #header a:visited {
+            color: white;
+        }
+        
+        #header a:hover {
+            color: #f0f0f0;
+        }
+        
+        /* Breadcrumbs styling */
+        .breadcrumbs {
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px 20px;
+        }
+        
+        .breadcrumbs a {
+            color: #447e9b;
+            text-decoration: none;
+        }
+        
+        .breadcrumbs a:hover {
+            color: #205067;
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

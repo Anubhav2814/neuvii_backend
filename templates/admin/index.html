@@ -4,19 +4,37 @@
 {% block extrahead %}
     {{ block.super }}
     <style>
-        /* Custom CSS for Neuvii Admin Sidebar Structure */
+        /* Hide right sidebar completely */
+        #content-related {
+            display: none !important;
+        }
+        
+        /* Make main content take full width */
+        #content-main {
+            width: 100% !important;
+            margin-right: 0 !important;
+        }
+        
+        /* Ensure left sidebar is properly styled */
+        #content {
+            display: flex;
+            width: 100%;
+        }
+        
+        /* Custom CSS for Clean Neuvii Admin Sidebar Structure */
         
         /* Ensure proper spacing and alignment for management sections */
         .module h2 {
             background: linear-gradient(to bottom, #4a90a4 0%, #417690 100%);
             color: #fff;
-            padding: 10px 15px;
+            padding: 12px 16px;
             margin: 0;
             font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             border-bottom: 1px solid #2e5d6e;
+            border-radius: 4px 4px 0 0;
         }
 
         /* Style for individual model links */
@@ -24,10 +42,16 @@
             width: 100%;
             border-collapse: collapse;
             background: #fff;
+            border-radius: 0 0 4px 4px;
         }
 
         .module table tr {
             border-bottom: 1px solid #e1e1e1;
+            transition: background-color 0.2s ease;
+        }
+
+        .module table tr:hover {
+            background-color: #f8f9fa;
         }
 
         .module table tr:last-child {
@@ -35,9 +59,14 @@
         }
 
         .module table td {
-            padding: 10px 15px;
+            padding: 12px 16px;
             border: none;
             vertical-align: middle;
+        }
+
+        .module table td:first-child {
+            font-weight: 600;
+            color: #333;
         }
 
         .module table td a {
@@ -45,6 +74,7 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 13px;
+            transition: color 0.2s ease;
         }
 
         .module table td a:hover {
@@ -56,33 +86,54 @@
         .module {
             margin-bottom: 20px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: #fff;
         }
 
         /* Style for action links (Add, Change, View) */
         .addlink, .changelink, .viewlink {
-            padding-left: 16px;
-            background-repeat: no-repeat;
-            background-position: 0 center;
+            padding: 4px 8px;
+            margin: 0 2px;
+            border-radius: 3px;
             font-size: 11px;
-            font-weight: normal;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 8px;
+            text-decoration: none !important;
+            display: inline-block;
+            transition: all 0.2s ease;
         }
 
         .addlink {
-            background-image: url("{% static 'admin/img/icon-addlink.svg' %}");
+            background-color: #28a745;
+            color: white !important;
+        }
+
+        .addlink:hover {
+            background-color: #218838;
+            color: white !important;
         }
 
         .changelink {
-            background-image: url("{% static 'admin/img/icon-changelink.svg' %}");
+            background-color: #ffc107;
+            color: #212529 !important;
+        }
+
+        .changelink:hover {
+            background-color: #e0a800;
+            color: #212529 !important;
         }
 
         .viewlink {
-            background-image: url("{% static 'admin/img/icon-changelink.svg' %}");
+            background-color: #17a2b8;
+            color: white !important;
+        }
+
+        .viewlink:hover {
+            background-color: #138496;
+            color: white !important;
         }
 
         /* Clean hierarchy for nested items */
@@ -91,15 +142,25 @@
             font-weight: 600;
         }
 
+        .module table tr td:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 1024px) {
             .module h2 {
                 font-size: 12px;
-                padding: 8px 12px;
+                padding: 10px 14px;
             }
             
             .module table td {
-                padding: 8px 12px;
+                padding: 10px 14px;
+            }
+            
+            .addlink, .changelink, .viewlink {
+                font-size: 10px;
+                padding: 3px 6px;
             }
         }
 
@@ -114,11 +175,17 @@
         .stat-card {
             background: #fff;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             padding: 20px;
             flex: 1;
             min-width: 200px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         .stat-card h3 {
@@ -127,10 +194,11 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .stat-card .number {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #333;
         }
@@ -139,19 +207,74 @@
         .welcome-message {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            border-radius: 4px;
+            padding: 24px;
+            border-radius: 6px;
             margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .welcome-message h2 {
             margin: 0 0 10px 0;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .welcome-message p {
             margin: 0;
-            opacity: 0.9;
+            opacity: 0.95;
+            font-size: 14px;
+        }
+
+        /* Management section specific styling */
+        .management-section {
+            margin-bottom: 25px;
+        }
+
+        .management-section .module h2 {
+            position: relative;
+        }
+
+        .management-section .module h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #28a745, #20c997);
+        }
+
+        /* Specific colors for different management sections */
+        .clinic-management .module h2::before {
+            background: linear-gradient(to bottom, #007bff, #0056b3);
+        }
+
+        .client-management .module h2::before {
+            background: linear-gradient(to bottom, #28a745, #20c997);
+        }
+
+        .child-management .module h2::before {
+            background: linear-gradient(to bottom, #ffc107, #e0a800);
+        }
+
+        .therapist-management .module h2::before {
+            background: linear-gradient(to bottom, #17a2b8, #138496);
+        }
+
+        .assignment-management .module h2::before {
+            background: linear-gradient(to bottom, #6f42c1, #5a32a3);
+        }
+
+        .goal-management .module h2::before {
+            background: linear-gradient(to bottom, #fd7e14, #e8590c);
+        }
+
+        .task-management .module h2::before {
+            background: linear-gradient(to bottom, #dc3545, #c82333);
+        }
+
+        .user-management .module h2::before {
+            background: linear-gradient(to bottom, #6c757d, #5a6268);
         }
     </style>
 {% endblock %}
@@ -207,34 +330,38 @@
 
     {% if app_list %}
         {% for app in app_list %}
-            <div class="module">
-                <h2>{{ app.name }}</h2>
-                {% if app.models %}
-                    <table>
-                        {% for model in app.models %}
-                            <tr>
-                                <td>
-                                    <a href="{{ model.admin_url }}">{{ model.name }}</a>
-                                </td>
-                                <td>
-                                    {% if model.perms.add %}
-                                        <a href="{{ model.add_url }}" class="addlink">Add</a>
-                                    {% endif %}
-                                    {% if model.perms.change %}
-                                        <a href="{{ model.admin_url }}" class="changelink">Change</a>
-                                    {% endif %}
-                                    {% if model.perms.view %}
-                                        <a href="{{ model.admin_url }}" class="viewlink">View</a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
+            <div class="management-section {{ app.name|lower|cut:' '|add:'-management' }}">
+                <div class="module">
+                    <h2>{{ app.name }}</h2>
+                    {% if app.models %}
+                        <table>
+                            {% for model in app.models %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ model.admin_url }}">{{ model.name }}</a>
+                                    </td>
+                                    <td>
+                                        {% if model.perms.add %}
+                                            <a href="{{ model.add_url }}" class="addlink">Add</a>
+                                        {% endif %}
+                                        {% if model.perms.change %}
+                                            <a href="{{ model.admin_url }}" class="changelink">Change</a>
+                                        {% endif %}
+                                        {% if model.perms.view %}
+                                            <a href="{{ model.admin_url }}" class="viewlink">View</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>{% trans "You don't have permission to view or edit anything." %}</p>
+        <div class="module">
+            <p>{% trans "You don't have permission to view or edit anything." %}</p>
+        </div>
     {% endif %}
 </div>
 {% endblock %}
